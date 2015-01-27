@@ -34,6 +34,8 @@ public class AnnotationMethodHandlerAdapter implements IHandlerAdapter
 		
 		AnalysisUtils urlUtil = new AnalysisUtils();
 		
+		int addCount = 0;
+		
 		while(iter.hasNext())
 		{
 			Class<?> clazz = iter.next();
@@ -58,11 +60,8 @@ public class AnnotationMethodHandlerAdapter implements IHandlerAdapter
 				prefix = "/";
 			}
 			
-			int addCount = 0;
-			
 			try
 			{
-				
 				Method[] methods = clazz.getMethods();
 				
 				for(Method m : methods)
@@ -72,15 +71,10 @@ public class AnnotationMethodHandlerAdapter implements IHandlerAdapter
 					{
 						requestUrl.setDoClass(clazz);
 						requestUrl.setReturnType(urlUtil.getReturnType(clazz));
+						System.out.println("find request url : requestUrl.getRequestUrl()="+requestUrl.getRequestUrl()+",requestUrl="+requestUrl);
 						urlMap.put(requestUrl.getRequestUrl(), requestUrl);
 						addCount++;
 					}
-				}
-				
-				if(addCount != urlMap.keySet().size())
-				{
-					//如果有两个相同的URL，则抛异常
-					throw new IllegalStateException("Ambiguous handler url have the same");
 				}
 				
 			}catch(Exception e)
@@ -89,6 +83,13 @@ public class AnnotationMethodHandlerAdapter implements IHandlerAdapter
 				e.printStackTrace();
 			}
 		}
+		
+		if(addCount != urlMap.keySet().size())
+		{
+			//如果有两个相同的URL，则抛异常
+			throw new IllegalStateException("Ambiguous handler url have the same");
+		}
+		
 		return urlMap;
 	}
 

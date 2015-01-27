@@ -3,6 +3,8 @@ package com.hqit.servletmvc.servlet;
 
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.hqit.servletmvc.analysis.GetClassFormPackage;
 import com.hqit.servletmvc.api.IHandlerAdapter;
 import com.hqit.servletmvc.api.impl.DefaultMethodHandlerAdapter;
@@ -22,7 +24,7 @@ public class DispatcherServlet extends FrameworkServlet
 		if(packages!=null)
 		{
 			IHandlerAdapter analysis = null;
-			if(loadingStrategy != null)
+			if(StringUtils.isNotBlank(loadingStrategy))
 			{
 				analysis = (IHandlerAdapter)Class.forName(loadingStrategy).newInstance();
 			}

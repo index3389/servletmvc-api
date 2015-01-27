@@ -61,10 +61,13 @@ public class RequestUtils
 	public static String removeProjectName(String projectName,String url)
 	{
 		int location = url.lastIndexOf(".");
-		url = url.substring(0,location);
-		if(!projectName.equals(""))
+		if(location > -1)
 		{
-			url = url.substring(projectName.length(),url.length());
+			url = url.substring(0,location);
+			if(!projectName.equals(""))
+			{
+				url = url.substring(projectName.length(),url.length());
+			}
 		}
 		return url;
 	}
